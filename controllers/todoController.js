@@ -23,6 +23,30 @@ const getTodo = async (req, res) => {
   }
 };
 
+const updateTodo = async (req, res) => {
+  try {
+    const todoId = req.params.id; // Get the :id from the URL
+    const updatedData = req.body; // Get the updated data from the request body
 
+    console.log("Updating Todo ID:", req.params.id);
+    console.log("Request body:", req.body);
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      todoId,
+      updatedData,
+      { new: true } // Return the updated document
+    );
 
-module.exports = { addTodo, getTodo };
+    if (!updatedTodo) {
+      console.log("Todo not found in DB");
+
+      return res.status(404).json({ message: "Todo not found" });
+    }
+    console.log("Updated Todo:", updatedTodo);
+
+    res.status(200).json(updatedTodo);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { addTodo, getTodo, updateTodo };
