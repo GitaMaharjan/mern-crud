@@ -3,8 +3,8 @@ require("dotenv").config(); // Load environment variables from .env file
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors"); // Import cors middleware (allows frontend to talk to backend)
-
 const connectDB = require("./config/db"); // Import database connection function
+const todoRoutes = require("./routes/todoRoutes"); // Import todo routes
 
 const app = express(); // Create an Express application
 connectDB(); // Connect to MongoDB
@@ -17,7 +17,7 @@ app.use(cors()); // Enable CORS for all routes
 //allow server to read JSON data from request body
 //without this, req.body would be undefined when we try to access it in our routes
 app.use(express.json()); // Parse JSON request bodies
-
+app.use("/api/todos", todoRoutes); // Use todo routes for /api/todos endpoints
 // Routes
 
 // Test route to check if server is running
